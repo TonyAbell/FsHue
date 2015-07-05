@@ -1,0 +1,29 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.31101.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FsHue", "FsHue.fsproj", "{95AE4D11-C9F1-4181-9FC3-AB3E70B7EE3B}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{310D8315-0E89-411A-9CE2-E4C8666D8643}"
+	ProjectSection(SolutionItems) = preProject
+		build.cmd = build.cmd
+		build.fsx = build.fsx
+		paket.dependencies = paket.dependencies
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95AE4D11-C9F1-4181-9FC3-AB3E70B7EE3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95AE4D11-C9F1-4181-9FC3-AB3E70B7EE3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95AE4D11-C9F1-4181-9FC3-AB3E70B7EE3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95AE4D11-C9F1-4181-9FC3-AB3E70B7EE3B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

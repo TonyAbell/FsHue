@@ -1,0 +1,18 @@
+{% extends "page.html" %}
+{% block head %}
+  <title>Home page</title>
+{% endblock %}
+
+{% block content %}
+
+
+<p>hello</p>
+<ul>
+    {% for item in model %}
+    <li>{{ item }}</li>
+    
+    {% endfor %}
+</ul>
+
+{% endblock %}
+ 

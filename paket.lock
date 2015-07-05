@@ -1,0 +1,45 @@
+NUGET
+  remote: https://nuget.org/api/v2
+  specs:
+    Colourful (1.1.0)
+    DotLiquid (1.8.0)
+    FAKE (3.35.5)
+    FSharp.Compiler.Service (0.0.90)
+    FSharp.Control.AsyncSeq (2.0.1)
+    FSharp.Core (3.1.2.1)
+    FSharp.Data (2.2.3)
+      Zlib.Portable (>= 1.10.0) - framework: portable-net40+sl50+wp80+win80
+    FSharp.Formatting (2.9.10)
+      FSharp.Compiler.Service (>= 0.0.87)
+      FSharpVSPowerTools.Core (1.8.0)
+    FSharpVSPowerTools.Core (1.8.0)
+      FSharp.Compiler.Service (>= 0.0.87)
+    FSharpx.Async (1.12.0)
+      FSharp.Control.AsyncSeq
+    FSharpx.Collections (1.11.0)
+      FSharp.Core
+    FSharpx.Extras (1.10.2)
+      FSharpx.Async (>= 1.12)
+      FSharpx.Collections (>= 1.10.1)
+    FsPickler (1.2.10)
+    Microsoft.Bcl (1.1.10)
+      Microsoft.Bcl.Build (>= 1.0.14)
+    Microsoft.Bcl.Build (1.0.21)
+    Microsoft.Net.Http (2.2.29) - framework: portable-net45+wp80+win81+wpa81, portable-win81+wpa81, >= net45
+      Microsoft.Bcl (>= 1.1.10)
+      Microsoft.Bcl.Build (>= 1.0.14)
+    Newtonsoft.Json (7.0.1) - framework: portable-net45+wp80+win81+wpa81, portable-win81+wpa81, >= net45
+    Q42.HueApi (1.9.2.42)
+      Microsoft.Net.Http (>= 2.2.28) - framework: portable-net45+wp80+win81+wpa81, portable-win81+wpa81, >= net45
+      Newtonsoft.Json  - framework: portable-net45+wp80+win81+wpa81, portable-win81+wpa81, >= net45
+      Q42.HueApi.Net  - framework: >= net45
+      Q42.HueApi.WinRT (>= 1.4.3.42) - framework: portable-win81+wpa81
+    Q42.HueApi.Net (1.9.1.42) - framework: >= net45
+    Q42.HueApi.WinRT (1.4.3.42) - framework: portable-win81+wpa81
+    Suave (0.29.1)
+      FSharp.Core (>= 3.1.2.1)
+      FsPickler (>= 1.2.5)
+    Suave.DotLiquid (0.29.1)
+      DotLiquid (>= 1.8.0)
+      Suave (>= 0.29.1)
+    Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
