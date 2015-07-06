@@ -1,21 +1,39 @@
 ﻿module FsHue.hueUtils
 
-open Q42.HueApi.NET
+
 open System
-open Q42.HueApi
+open FSharp.Data
+
+type Light = { Id : int
+               Name : string}
 
 let private ip =
-     (new SSDPBridgeLocator()).LocateBridgesAsync(TimeSpan.FromSeconds(5.))
-    |> Async.AwaitTask
-    |> Async.RunSynchronously
-    |> Seq.head
+    "192.168.1.8"
+let private setStateUri lightId=
+    sprintf "http://%s/api/newdeveloper/lights/%d/state" ip lightId
 
+let private getLightsUri =
+    sprintf "http://%s/api/newdeveloper/lights" ip
 
-let private client() = 
-    new HueClient(ip, "newdeveloper")
+let getLights() =
+    let uri = getLightsUri
+    let response = FSharp.Data.Http.Request(url=uri,httpMethod="GET")
+    if response.StatusCode = 200 then
+        match response.Body with
+         | Text body -> let json = JsonValue.Parse body
+                        json.Properties() 
+                            |> Array.map(fun (id,f) -> 
+                                let intId = Convert.ToInt32(id)
+                                let name = f.GetProperty("name").AsString()
+                                { Id = intId ; Name = name})
+                            |> Some
 
-let getLights() = 
-    client().GetLightsAsync()
-    |> Async.AwaitTask
-    |> Async.RunSynchronously
-    |> Seq.toArray
+         | _ -> None
+    else None
+
+let setLightState lightId (lightCmd:JsonValue) = 
+    let uri = setStateUri lightId
+    let body = TextRequest (lightCmd.ToString())
+    let response = 
+        FSharp.Data.Http.Request(url=uri,httpMethod="PUT",body=body)
+    response.StatusCode

@@ -22,20 +22,6 @@ NUGET
       FSharpx.Async (>= 1.12)
       FSharpx.Collections (>= 1.10.1)
     FsPickler (1.2.10)
-    Microsoft.Bcl (1.1.10)
-      Microsoft.Bcl.Build (>= 1.0.14)
-    Microsoft.Bcl.Build (1.0.21)
-    Microsoft.Net.Http (2.2.29) - framework: portable-net45+wp80+win81+wpa81, portable-win81+wpa81, >= net45
-      Microsoft.Bcl (>= 1.1.10)
-      Microsoft.Bcl.Build (>= 1.0.14)
-    Newtonsoft.Json (7.0.1) - framework: portable-net45+wp80+win81+wpa81, portable-win81+wpa81, >= net45
-    Q42.HueApi (1.9.2.42)
-      Microsoft.Net.Http (>= 2.2.28) - framework: portable-net45+wp80+win81+wpa81, portable-win81+wpa81, >= net45
-      Newtonsoft.Json  - framework: portable-net45+wp80+win81+wpa81, portable-win81+wpa81, >= net45
-      Q42.HueApi.Net  - framework: >= net45
-      Q42.HueApi.WinRT (>= 1.4.3.42) - framework: portable-win81+wpa81
-    Q42.HueApi.Net (1.9.1.42) - framework: >= net45
-    Q42.HueApi.WinRT (1.4.3.42) - framework: portable-win81+wpa81
     Suave (0.29.1)
       FSharp.Core (>= 3.1.2.1)
       FsPickler (>= 1.2.5)

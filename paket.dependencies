@@ -7,6 +7,5 @@ nuget FSharp.Data
 nuget FSharp.Compiler.Service
 nuget DotLiquid
 nuget FSharp.Formatting
-nuget Q42.HueApi
 nuget FSharpx.Extras
 nuget Colourful

@@ -4,12 +4,7 @@
 #r "packages/DotLiquid/lib/NET45/DotLiquid.dll"
 #r "packages/Suave.DotLiquid/lib/net40/Suave.DotLiquid.dll"
 #r "packages/FSharpx.Extras/lib/40/FSharpx.Extras.dll"
-#r "packages/Q42.HueApi.Net/lib/net45/Q42.HueApi.NET.dll"
-#r "packages/Q42.HueApi/lib/portable-net45+wp80+win81+wpa81/Q42.HueApi.dll"
 #r "packages/Colourful/lib/net45/Colourful.dll"
-
-#r @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Runtime.dll"
-#r @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5.1\Facades\System.Threading.Tasks.dll"
 #load "packages/FSharp.Formatting/FSharp.Formatting.fsx"
 open System
 open System.Web
@@ -27,19 +22,16 @@ open Suave.Http.Successful
 open Suave.Web
 
 
-
 #load "code/common/filters.fs"
 
 #load "code/common/lightCommandExtensions.fs"
 
 #load "code/common/hueUtils.fs"
 
-
 #load "code/pages/home.fs"
 
+open FsHue.LightCommandExtensions
 open FsHue.Pages
-
-
 
 // -------------------------------------------------------------------------------------------------
 // Server entry-point and routing
@@ -81,10 +73,11 @@ let app =
           browseStaticFiles
          ]
       POST >>= choose
-        [ path "/hello" >>= OK "Hello POST"
+        [ path "/hello" >>= Home.showHome
+          path "/turnon" >>= Home.turnOn
+          path "/turnoff" >>= Home.turnOff
           path "/goodbye" >>= OK "Good bye POST" ] 
       ]
-
 
 // -------------------------------------------------------------------------------------------------
 // To run the web site, you can use `build.sh` or `build.cmd` script, which is nice because it

@@ -1,18 +1,26 @@
-{% extends "page.html" %}
-{% block head %}
+{% extends "page.html" -%}
+{% block head -%}
   <title>Home page</title>
-{% endblock %}
-
-{% block content %}
-
-
+{% endblock -%}
+{% block content -%}
 <p>hello</p>
 <ul>
-    {% for item in model %}
-    <li>{{ item }}</li>
-    
-    {% endfor %}
+	{% for item in model -%}
+	<li>
+		{{ item.name }}
+		<form method="POST" action="turnon" if-match="*">
+			<input type="hidden" name="lightid" type="number" value="{{ item.id }}" />
+
+			<input type="submit" value="On" />
+		</form>
+		<form action="turnoff" method="POST" if-match="*">
+			<input type="hidden" name="lightid" type="number" value="{{ item.id }}" />
+			<input type="submit" value="Off" />
+		</form>
+	</li>
+	{% endfor -%}
 </ul>
 
-{% endblock %}
+	
+{% endblock -%}
  
