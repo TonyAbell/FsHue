@@ -1,26 +1,103 @@
 {% extends "page.html" -%}
 {% block head -%}
-  <title>Home page</title>
+<title>Home page</title>
+<script>
+
+    $(document).ready(function () {
+        console.log("ready!");
+        $("#allon").click(function (btn) {
+            var id = this.id;
+            console.log("Turn All On Clicked: " + id);
+            $.ajax({
+                url: '/turnallon',
+                type: 'PUT',             
+                success: function (data, textStatus, xhr) {
+                    console.log(textStatus);
+                    console.log(data);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error in Operation');
+                    console.log(textStatus);
+                }
+            });
+        });
+        $("#alloff").click(function (btn) {
+            var id = this.id;
+            console.log("Turn All Off Clicked: " + id);
+            $.ajax({
+                url: '/turnalloff',
+                type: 'PUT',
+                success: function (data, textStatus, xhr) {
+                    console.log(textStatus);
+                    console.log(data);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error in Operation');
+                    console.log(textStatus);
+                }
+            });
+        });
+        $(".on").click(function (btn) {
+            var id = this.id;
+            console.log("Turn On Clicked: " + id);
+            $.ajax({
+                url: '/turnon',
+                type: 'PUT',
+                dataType: 'text',
+                data: "lightid=" + id,
+                success: function (data, textStatus, xhr) {
+                    console.log(textStatus);
+                    console.log(data);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error in Operation');
+                    console.log(textStatus);
+                }
+            });
+        });
+        $(".off").click(function (btn) {
+            var id = this.id;
+            console.log("Turn Off Clicked: " + id);
+            $.ajax({
+                url: '/turnoff',
+                type: 'PUT',
+                dataType: 'text',
+                data: "lightid=" + id,
+                success: function (data, textStatus, xhr) {
+                    console.log(textStatus);
+                    console.log(data);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    console.log('Error in Operation');
+                    console.log(textStatus);
+                }
+            });
+        });
+    });
+</script>
 {% endblock -%}
 {% block content -%}
 <p>hello</p>
+<div id="target">
+    Click here
+</div>
+<div id="other">
+    Trigger the handler
+</div>
+
 <ul>
-	{% for item in model -%}
-	<li>
-		{{ item.name }}
-		<form method="POST" action="turnon" if-match="*">
-			<input type="hidden" name="lightid" type="number" value="{{ item.id }}" />
-
-			<input type="submit" value="On" />
-		</form>
-		<form action="turnoff" method="POST" if-match="*">
-			<input type="hidden" name="lightid" type="number" value="{{ item.id }}" />
-			<input type="submit" value="Off" />
-		</form>
-	</li>
-	{% endfor -%}
+    {% for item in model -%}
+    <li>
+        {{ item.name }}
+        <button class="on" id="{{item.id}}">On</button>
+        <button class="off" id="{{item.id}}">Off</button>
+    </li>
+    {% endfor -%}
 </ul>
-
-	
-{% endblock -%}
- 
+<div>
+    <button id="allon">All On</button>
+</div>
+<div>
+    <button id="alloff">All Off</button>
+</div>
+    {% endblock -%}

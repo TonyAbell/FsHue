@@ -26,12 +26,12 @@ let getLights() =
                                 let intId = Convert.ToInt32(id)
                                 let name = f.GetProperty("name").AsString()
                                 { Id = intId ; Name = name})
-                            |> Some
+                            
 
-         | _ -> None
-    else None
+         | _ -> [||]
+    else [||]
 
-let setLightState lightId (lightCmd:JsonValue) = 
+let setLightState (lightCmd:JsonValue) lightId = 
     let uri = setStateUri lightId
     let body = TextRequest (lightCmd.ToString())
     let response = 

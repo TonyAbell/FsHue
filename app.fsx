@@ -1,4 +1,3 @@
-#r "System.Xml.Linq.dll"
 #r "packages/Suave/lib/net40/Suave.dll"
 #r "packages/FSharp.Data/lib/net40/FSharp.Data.dll"
 #r "packages/DotLiquid/lib/NET45/DotLiquid.dll"
@@ -30,6 +29,7 @@ open Suave.Web
 
 #load "code/pages/home.fs"
 
+
 open FsHue.LightCommandExtensions
 open FsHue.Pages
 
@@ -46,7 +46,7 @@ let browseStaticFile file ctx = async {
         match mime with
         | None -> fun c -> async { return None }
         | Some mime -> Suave.Http.Writers.setMimeType mime.name
-      return! ctx |> ( setMime >>= Successful.ok(File.ReadAllBytes actualFile) ) 
+      return! ctx |> ( setMime >>= Successful.ok(File.ReadAllBytes actualFile) )
   else
       return None
        }
@@ -72,12 +72,16 @@ let app =
           path "/" >>= Home.showHome
           browseStaticFiles
          ]
-      POST >>= choose
+      PUT >>= choose
         [ path "/hello" >>= Home.showHome
-          path "/turnon" >>= Home.turnOn
-          path "/turnoff" >>= Home.turnOff
-          path "/goodbye" >>= OK "Good bye POST" ] 
+          path "/turnallon" >>= Home.turnAllOn >>= NO_CONTENT
+          path "/turnalloff" >>= Home.turnAllOff >>= NO_CONTENT
+          path "/turnon" >>= Home.turnOn >>= NO_CONTENT
+          path "/turnoff" >>= Home.turnOff >>= NO_CONTENT
+          path "/goodbye" >>= OK "Good bye POST" ]
       ]
+
+      
 
 // -------------------------------------------------------------------------------------------------
 // To run the web site, you can use `build.sh` or `build.cmd` script, which is nice because it

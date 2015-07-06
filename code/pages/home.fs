@@ -7,50 +7,62 @@ open FsHue.hueUtils
 open Suave.Types
 open FSharp.Data
 open FsHue.LightCommandExtensions
-type Home = {
-    Lights: seq<string>
+open Suave.Http.Successful
+
+type Home = 
+    { Lights : seq<string> }
+
+let delay (f : unit -> Suave.Types.WebPart) ctx = async { return! f () ctx }
+
+let showHome = 
+    delay (fun () -> 
+        let lights = FsHue.hueUtils.getLights()
+        DotLiquid.page "home.html" (lights |> Array.toList))
+
+let offCmd = JsonValue.Null |> JsonValue.on.Set false
+
+let onCmd = 
+    JsonValue.Null
+    |> JsonValue.on.Set true
+    |> JsonValue.brightness.Set 255uy
+    |> JsonValue.colour.Set System.Drawing.Color.White
+
+let turnLightOn = function 
+    | id -> FsHue.hueUtils.setLightState onCmd id |> ignore
+let turnLightOff = function 
+    | id -> FsHue.hueUtils.setLightState offCmd id |> ignore
+
+let turnAllOn (ctx : HttpContext) = 
+    async { 
+        FsHue.hueUtils.getLights()
+        |> Array.map (fun f -> f.Id)
+        |> Array.iter turnLightOn
+        return Some(ctx)
+    }
+let turnAllOff (ctx : HttpContext) = 
+    async { 
+        FsHue.hueUtils.getLights()
+        |> Array.map (fun f -> f.Id)
+        |> Array.iter turnLightOff
+        return Some(ctx)
     }
 
-let delay (f:unit -> Suave.Types.WebPart) ctx = 
-  async { return! f () ctx }
-
-let showHome = delay (fun () -> 
-  let lights = FsHue.hueUtils.getLights()
-  match lights with 
-   | Some d -> DotLiquid.page "home.html" (d |> Array.toList)
-   | None -> DotLiquid.page "home.html" Array.empty<Light> )
-
-
-let turnOn (ctx:HttpContext)   = 
-    async {
-        
-        let onCmd = 
-            JsonValue.Null 
-                |> JsonValue.on.Set true
-                |> JsonValue.brightness.Set 255uy
-                |> JsonValue.colour.Set System.Drawing.Color.White
+let turnOn (ctx : HttpContext) = 
+    async { 
         match ctx.request.formData "lightid" with
         | Choice1Of2 id -> 
             let intId = System.Convert.ToInt32(id)
-
-            FsHue.hueUtils.setLightState intId onCmd |> ignore
+            turnLightOn intId
         | Choice2Of2 msg -> ()
-
-       
-        return! showHome ctx 
+        return Some(ctx)
     }
-let turnOff (ctx:HttpContext) =
-    async {
-         let cmd = 
-            JsonValue.Null 
-                |> JsonValue.on.Set false
-         match ctx.request.formData "lightid" with
-            | Choice1Of2 id -> 
-                let intId = System.Convert.ToInt32(id)
 
-                FsHue.hueUtils.setLightState intId cmd |> ignore
-            | Choice2Of2 msg -> 
-                printfn "%s" msg
-                ()
-         return! showHome ctx
+let turnOff (ctx : HttpContext) = 
+    async { 
+        match ctx.request.formData "lightid" with
+        | Choice1Of2 id -> 
+            let intId = System.Convert.ToInt32(id)
+            turnLightOff intId
+        | Choice2Of2 msg -> ()
+        return Some(ctx)
     }
