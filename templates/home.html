@@ -3,6 +3,7 @@
 <title>Home page</title>
 <script>
 
+
     $(document).ready(function () {
         console.log("ready!");
         $("#allon").click(function (btn) {
@@ -10,7 +11,7 @@
             console.log("Turn All On Clicked: " + id);
             $.ajax({
                 url: '/turnallon',
-                type: 'PUT',             
+                type: 'PUT',
                 success: function (data, textStatus, xhr) {
                     console.log(textStatus);
                     console.log(data);
@@ -77,14 +78,6 @@
 </script>
 {% endblock -%}
 {% block content -%}
-<p>hello</p>
-<div id="target">
-    Click here
-</div>
-<div id="other">
-    Trigger the handler
-</div>
-
 <ul>
     {% for item in model -%}
     <li>
