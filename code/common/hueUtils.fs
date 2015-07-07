@@ -14,6 +14,17 @@ let private setStateUri lightId=
 
 let private getLightsUri =
     sprintf "http://%s/api/newdeveloper/lights" ip
+    
+let private groups =
+    () // http://www.developers.meethue.com/documentation/groups-api
+       // /GET|POST api/newdeveloper/groups
+       // {"1": {"name": "Main"},"2": {"name": "Bed Room"}}
+
+       // Get|Set group attributes 
+       // GET|PUT
+       //     /api/newdeveloper/groups/<id>
+
+       // /api/<username>/groups/<id>/action
 
 let getLights() =
     let uri = getLightsUri
