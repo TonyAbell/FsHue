@@ -4,8 +4,18 @@
 open System
 open FSharp.Data
 
-type Light = { Id : int
-               Name : string}
+type LightId = int
+type LightName = string
+
+type GroupId = int
+type GroupName = string
+
+
+type Light = { Id : LightId
+               Name : LightName}
+
+type Group = { GroupId : LightId
+               GroupName : LightName}
 
 let private ip =
     "192.168.1.8"
@@ -14,13 +24,13 @@ let private setStateUri lightId=
 
 let private getLightsUri =
     sprintf "http://%s/api/newdeveloper/lights" ip
-    
+
 let private groups =
     () // http://www.developers.meethue.com/documentation/groups-api
        // /GET|POST api/newdeveloper/groups
        // {"1": {"name": "Main"},"2": {"name": "Bed Room"}}
 
-       // Get|Set group attributes 
+       // Get|Set group attributes
        // GET|PUT
        //     /api/newdeveloper/groups/<id>
 
@@ -32,19 +42,19 @@ let getLights() =
     if response.StatusCode = 200 then
         match response.Body with
          | Text body -> let json = JsonValue.Parse body
-                        json.Properties() 
-                            |> Array.map(fun (id,f) -> 
+                        json.Properties()
+                            |> Array.map(fun (id,f) ->
                                 let intId = Convert.ToInt32(id)
                                 let name = f.GetProperty("name").AsString()
                                 { Id = intId ; Name = name})
-                            
+
 
          | _ -> [||]
     else [||]
 
-let setLightState (lightCmd:JsonValue) lightId = 
+let setLightState (lightCmd:JsonValue) lightId =
     let uri = setStateUri lightId
     let body = TextRequest (lightCmd.ToString())
-    let response = 
+    let response =
         FSharp.Data.Http.Request(url=uri,httpMethod="PUT",body=body)
     response.StatusCode

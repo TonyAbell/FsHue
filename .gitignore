@@ -2,6 +2,9 @@
 *.bak
 data/
 packages/
+paket-files/
 obj/
 bin/
 .paket/paket.exe
+code/ts/d/angularjs/angular.d.ts
+code/ts/d/jquery/jquery.d.ts

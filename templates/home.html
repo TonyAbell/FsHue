@@ -79,10 +79,10 @@
 {% endblock -%}
 {% block content -%}
 <ul>
-    {% for item in model -%}
+    {% for item in model.Lights -%}
     <li>
         {{ item.name }}
-        <button class="on" id="{{item.id}}">On</button>
+        <button class="on" id="{{item.Id}}">On</button>
         <button class="off" id="{{item.id}}">Off</button>
     </li>
     {% endfor -%}

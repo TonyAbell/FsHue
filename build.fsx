@@ -15,6 +15,8 @@ open Suave
 open Suave.Web
 open Suave.Types
 open Microsoft.FSharp.Compiler.Interactive.Shell
+open Suave.Logging
+open TypeScript
 
 // --------------------------------------------------------------------------------------
 // The following uses FileSystemWatcher to look for changes in 'app.fsx'. When
@@ -39,9 +41,18 @@ let reportFsiError (e:exn) =
   traceError (sprintf "Message: %s\nError: %s" e.Message (sbErr.ToString().Trim()))
   sbErr.Clear() |> ignore
 
+let buildTypeScript() =
+    traceImportant "Building TypeScript Files..."
+    let tsPath = @"C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.4\tsc.exe"
+    !! "code/ts/*.ts*" |> TypeScriptCompiler (fun p -> { p with OutputPath = "./web/js"
+                                                                ToolPath = tsPath
+                                                                })
+
+
 let reloadScript () =
   try
     traceImportant "Reloading app.fsx script..."
+    buildTypeScript()
     let appFsx = __SOURCE_DIRECTORY__ @@ "app.fsx"
     fsiSession.EvalInteraction(sprintf "#load @\"%s\"" appFsx)
     fsiSession.EvalInteraction("open App")
@@ -59,13 +70,21 @@ let currentApp = ref (fun _ -> async { return None })
 let serverConfig =
   { defaultConfig with
       homeFolder = Some __SOURCE_DIRECTORY__
-      logger = Logging.Loggers.saneDefaultsFor Logging.LogLevel.Debug
+      //logger = Logging.Loggers.saneDefaultsFor Logging.LogLevel.Debug
+      logger = Loggers.ConsoleWindowLogger LogLevel.Verbose
       bindings = [ HttpBinding.mk' HTTP  "127.0.0.1" 8083] }
 
 let reloadAppServer () =
   reloadScript() |> Option.iter (fun app ->
     currentApp.Value <- app
     traceImportant "New version of app.fsx loaded!" )
+
+Target "definitelytyped" (fun _ ->
+  FileHelper.Copy "code/ts/d/angularjs" ["paket-files/borisyankov/DefinitelyTyped/angularjs/angular.d.ts"]
+  FileHelper.Copy "code/ts/d/jquery" ["paket-files/borisyankov/DefinitelyTyped/jquery/jquery.d.ts"]
+)
+
+Target "typescript" (fun _ -> buildTypeScript() )
 
 Target "run" (fun _ ->
   let app ctx = currentApp.Value ctx
@@ -76,9 +95,9 @@ Target "run" (fun _ ->
   Async.Start(server)
   // Open web browser with the loaded file
   System.Diagnostics.Process.Start("http://localhost:8083") |> ignore
-  
+
   // Watch for changes & reload when app.fsx changes
-  let sources = { BaseDirectory = __SOURCE_DIRECTORY__; Includes = [ "**/*.fs*" ]; Excludes = [] }
+  let sources = { BaseDirectory = __SOURCE_DIRECTORY__; Includes = [ "**/*.fs*"; "**/*.ts*" ]; Excludes = [] }
   use watcher = sources |> WatchChanges (fun _ -> reloadAppServer())
   traceImportant "Waiting for app.fsx edits. Press any key to stop."
   //System.Console.ReadLine() |> ignore
@@ -117,7 +136,7 @@ Target "spawn" (fun _ ->
 
   File.WriteAllText(runningFile, string p.Id)
   while File.Exists(runningFile) do
-    System.Threading.Thread.Sleep(500)  
+    System.Threading.Thread.Sleep(500)
   p.Kill()
 )
 
@@ -129,7 +148,7 @@ Target "attach" (fun _ ->
   while File.Exists(runningFile) do
     let msg = sr.ReadLine()
     if not (String.IsNullOrEmpty(msg)) then
-      printfn "%s" msg 
+      printfn "%s" msg
     else System.Threading.Thread.Sleep(500)
 )
 
@@ -139,4 +158,8 @@ Target "stop" (fun _ ->
   File.Delete(runningFile)
 )
 
+
+"definitelytyped"
+  ==> "typescript"
+  ==> "run"
 RunTargetOrDefault "run"
