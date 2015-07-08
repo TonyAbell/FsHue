@@ -45,7 +45,7 @@ let browseStaticFile file ctx = async {
       let setMime =
         match mime with
         | None -> fun c -> async { return None }
-        | Some mime -> Suave.Http.Writers.setMimeType mime.name
+        | Some mime -> Suave.Http.Writers.setMimeType mime.name        
       return! ctx |> ( setMime >>= Successful.ok(File.ReadAllBytes actualFile) )
   else
       return None
@@ -67,18 +67,12 @@ DotLiquid.setTemplatesDir (__SOURCE_DIRECTORY__ + "/templates")
 let app =
   choose
     [ GET >>= choose
-        [ //path "/" >>= Home.showHome
-          path "/hello" >>= OK "Hello GET"
-          path "/" >>= Home.showHome
-          browseStaticFiles
-         ]
+        [ browseStaticFiles ]
       PUT >>= choose
-        [ path "/hello" >>= Home.showHome
-          path "/turnallon" >>= Home.turnAllOn >>= NO_CONTENT
+        [ path "/turnallon" >>= Home.turnAllOn >>= NO_CONTENT
           path "/turnalloff" >>= Home.turnAllOff >>= NO_CONTENT
           path "/turnon" >>= Home.turnOn >>= NO_CONTENT
-          path "/turnoff" >>= Home.turnOff >>= NO_CONTENT
-          path "/goodbye" >>= OK "Good bye POST" ]
+          path "/turnoff" >>= Home.turnOff >>= NO_CONTENT ]
       ]
 
 

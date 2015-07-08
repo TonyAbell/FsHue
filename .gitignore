@@ -10,3 +10,4 @@ web/js/angularjs/*
 web/js/*.js
 web/js/*.map
 web/js/d/*
+build.running
