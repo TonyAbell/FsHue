@@ -6,5 +6,7 @@ paket-files/
 obj/
 bin/
 .paket/paket.exe
-code/ts/d/angularjs/angular.d.ts
-code/ts/d/jquery/jquery.d.ts
+web/js/angularjs/*
+web/js/*.js
+web/js/*.map
+web/js/d/*

@@ -43,11 +43,12 @@ let reportFsiError (e:exn) =
 
 let buildTypeScript() =
     traceImportant "Building TypeScript Files..."
-    let tsPath = @"C:\Program Files (x86)\Microsoft SDKs\TypeScript\1.4\tsc.exe"
-    !! "code/ts/*.ts*" |> TypeScriptCompiler (fun p -> { p with OutputPath = "./web/js"
-                                                                ToolPath = tsPath
-                                                                })
-
+    let tsPath = @"packages\Microsoft.TypeScript.Compiler\bin\tsc.exe"
+    !! "web/js/*.ts*" |> TypeScriptCompiler (fun p -> { p with OutputPath = "./web/js"
+                                                               ToolPath = tsPath
+                                                               EmitSourceMaps = true
+                                                               OutputSingleFile = Some("web/js/main_app.js")
+                                                      })
 
 let reloadScript () =
   try
@@ -79,9 +80,11 @@ let reloadAppServer () =
     currentApp.Value <- app
     traceImportant "New version of app.fsx loaded!" )
 
-Target "definitelytyped" (fun _ ->
-  FileHelper.Copy "code/ts/d/angularjs" ["paket-files/borisyankov/DefinitelyTyped/angularjs/angular.d.ts"]
-  FileHelper.Copy "code/ts/d/jquery" ["paket-files/borisyankov/DefinitelyTyped/jquery/jquery.d.ts"]
+Target "copyscripts" (fun _ ->
+  FileHelper.CopyDir "web/js/angularjs/" "packages/angularjs/content/Scripts/" (fun _ -> true)
+  FileHelper.Copy "web/js/d/" ["packages/Microsoft.TypeScript.Compiler/bin/lib.d.ts"]
+  FileHelper.Copy "web/js/d/angularjs" ["paket-files/borisyankov/DefinitelyTyped/angularjs/angular.d.ts"]
+  FileHelper.Copy "web/js/d/jquery" ["paket-files/borisyankov/DefinitelyTyped/jquery/jquery.d.ts"]
 )
 
 Target "typescript" (fun _ -> buildTypeScript() )
@@ -159,7 +162,7 @@ Target "stop" (fun _ ->
 )
 
 
-"definitelytyped"
+"copyscripts"
   ==> "typescript"
   ==> "run"
 RunTargetOrDefault "run"

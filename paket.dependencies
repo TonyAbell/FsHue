@@ -9,6 +9,8 @@ nuget DotLiquid
 nuget FSharp.Formatting
 nuget FSharpx.Extras
 nuget Colourful
+nuget Microsoft.TypeScript.Compiler
+nuget angularjs
 
 github borisyankov/DefinitelyTyped angularjs/angular.d.ts
 github borisyankov/DefinitelyTyped jquery/jquery.d.ts
