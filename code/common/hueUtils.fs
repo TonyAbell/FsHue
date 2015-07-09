@@ -4,7 +4,9 @@
 open System
 open FSharp.Data
 
+
 type LightId = int
+
 type LightName = string
 
 type GroupId = int

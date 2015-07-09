@@ -1,17 +1,28 @@
 <!DOCTYPE html>
 <html>
+
 <head lang="en">
-    <meta charset="UTF-8">
-    <title>None</title>
-    <script src="js/angularjs/angular.min.js"></script>
-    <script src="js/main_app.js"></script>
+  <meta charset="UTF-8">
+  <title>None</title>
+  <script src="js/angularjs/angular.min.js"></script>
+  <script src="js/app.js"></script>
 
 </head>
+
 <body>
   <div ng-app="app">
     <div ng-controller="MainController">
-      {{ name }}
+      <button ng-click="vm.allLightsOn()">All On</button>
+      <button ng-click="vm.allLightsOff()">All Off</button>
+      <ul>
+        <div ng-repeat="light in lights">
+          <li ng-id="{{ light.id }}">{{ light.name}}</li>
+          <button ng-click="vm.lightOn(light.id)">On</button>
+          <button ng-click="vm.lightOff(light.id)">Off</button>
+        </div>
+      </ul>
     </div>
   </div>
 </body>
+
 </html>

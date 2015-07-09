@@ -4,6 +4,7 @@
 #r "packages/Suave.DotLiquid/lib/net40/Suave.DotLiquid.dll"
 #r "packages/FSharpx.Extras/lib/40/FSharpx.Extras.dll"
 #r "packages/Colourful/lib/net45/Colourful.dll"
+#r "packages/Newtonsoft.Json/lib/net45/Newtonsoft.Json.dll"
 #load "packages/FSharp.Formatting/FSharp.Formatting.fsx"
 open System
 open System.Web
@@ -20,15 +21,9 @@ open Suave.Http.Applicatives
 open Suave.Http.Successful
 open Suave.Web
 
-
-#load "code/common/filters.fs"
-
 #load "code/common/lightCommandExtensions.fs"
-
 #load "code/common/hueUtils.fs"
-
 #load "code/pages/home.fs"
-
 
 open FsHue.LightCommandExtensions
 open FsHue.Pages
@@ -40,12 +35,11 @@ open FsHue.Pages
 let browseStaticFile file ctx = async {
   let actualFile = Path.Combine(ctx.runtime.homeDirectory, "web", file)
   if System.IO.File.Exists(actualFile) then
-
       let mime = Suave.Http.Writers.defaultMimeTypesMap(Path.GetExtension(actualFile))
       let setMime =
         match mime with
         | None -> fun c -> async { return None }
-        | Some mime -> Suave.Http.Writers.setMimeType mime.name        
+        | Some mime -> Suave.Http.Writers.setMimeType mime.name
       return! ctx |> ( setMime >>= Successful.ok(File.ReadAllBytes actualFile) )
   else
       return None
@@ -55,27 +49,19 @@ let browseStaticFiles ctx = async {
   let file = if local = "/" then "index.html" else local.Substring(1)
   return! browseStaticFile file ctx }
 
-// Configure DotLiquid templates & register filters (in 'filters.fs')
-[ for t in System.Reflection.Assembly.GetExecutingAssembly().GetTypes() do
-    if t.Name = "Filters" && not (t.FullName.StartsWith "<") then yield t ]
-|> Seq.last
-|> DotLiquid.registerFiltersByType
-
-DotLiquid.setTemplatesDir (__SOURCE_DIRECTORY__ + "/templates")
 
 
 let app =
   choose
     [ GET >>= choose
-        [ browseStaticFiles ]
+        [ browseStaticFiles
+          path "/lights" >>= Home.allLights  ]
       PUT >>= choose
         [ path "/turnallon" >>= Home.turnAllOn >>= NO_CONTENT
           path "/turnalloff" >>= Home.turnAllOff >>= NO_CONTENT
           path "/turnon" >>= Home.turnOn >>= NO_CONTENT
           path "/turnoff" >>= Home.turnOff >>= NO_CONTENT ]
       ]
-
-
 
 // -------------------------------------------------------------------------------------------------
 // To run the web site, you can use `build.sh` or `build.cmd` script, which is nice because it

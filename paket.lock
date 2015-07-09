@@ -24,6 +24,7 @@ NUGET
       FSharpx.Collections (>= 1.10.1)
     FsPickler (1.2.10)
     Microsoft.TypeScript.Compiler (1.4)
+    Newtonsoft.Json (7.0.1)
     Suave (0.29.1)
       FSharp.Core (>= 3.1.2.1)
       FsPickler (>= 1.2.5)
@@ -34,5 +35,5 @@ NUGET
 GITHUB
   remote: borisyankov/DefinitelyTyped
   specs:
-    angularjs/angular.d.ts (304a25197990aeabf8e9fd030ad927ed011b9e83)
-    jquery/jquery.d.ts (304a25197990aeabf8e9fd030ad927ed011b9e83)
+    angularjs/angular.d.ts (9a4ddc59cda450fd34690df34b12e0c406399413)
+    jquery/jquery.d.ts (9a4ddc59cda450fd34690df34b12e0c406399413)

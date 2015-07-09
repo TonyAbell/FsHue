@@ -45,6 +45,7 @@ let buildTypeScript() =
     traceImportant "Building TypeScript Files..."
     let tsPath = @"packages\Microsoft.TypeScript.Compiler\bin\tsc.exe"
     !! "web/js/*.ts*" |> TypeScriptCompiler (fun p -> { p with OutputPath = "./web/js"
+                                                               ECMAScript = ECMAScript.ES5
                                                                ToolPath = tsPath
                                                                EmitSourceMaps = true
                                                                OutputSingleFile = Some("web/js/main_app.js")

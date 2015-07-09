@@ -8,19 +8,14 @@ open Suave.Types
 open FSharp.Data
 open FsHue.LightCommandExtensions
 open Suave.Http.Successful
+open Suave.Json
+open Suave.Http
+open Suave.Web
+open Newtonsoft.Json
 
 type HomeView =
     { Lights : list<Light>
       Groups : list<Group> }
-
-let delay (f : unit -> Suave.Types.WebPart) ctx = async { return! f () ctx }
-
-let showHome =
-    delay (fun () ->
-        let lights = FsHue.hueUtils.getLights()
-        let view = { Lights = lights |> Array.toList
-                     Groups = List.empty<Group> }
-        DotLiquid.page "home.html" (lights |> Array.toList))
 
 let offCmd = JsonValue.Null |> JsonValue.on.Set false
 
@@ -34,6 +29,23 @@ let turnLightOn = function
     | id -> FsHue.hueUtils.setLightState onCmd id |> ignore
 let turnLightOff = function
     | id -> FsHue.hueUtils.setLightState offCmd id |> ignore
+
+let jsonSettings =
+    let settings = new  JsonSerializerSettings()
+    settings.ContractResolver <- new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+    settings
+
+
+let allLights (ctx : HttpContext) =
+    async {
+        let lgihts = FsHue.hueUtils.getLights()
+        return! JsonConvert.SerializeObject(lgihts,Formatting.Indented,jsonSettings)
+                   |>  System.Text.Encoding.UTF8.GetBytes
+                   |>  Response.response HTTP_200
+                   >>= Writers.setMimeType "application/json"
+                   <|  ctx
+
+    }
 
 let turnAllOn (ctx : HttpContext) =
     async {
