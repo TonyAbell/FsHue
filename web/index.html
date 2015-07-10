@@ -12,13 +12,13 @@
 <body>
   <div ng-app="app">
     <div ng-controller="MainController">
-      <button ng-click="controller.allLightsOn()">All On</button>
-      <button ng-click="controller.allLightsOff()">All Off</button>
+      <button ng-click="allLightsOn()">All On</button>
+      <button ng-click="allLightsOff()">All Off</button>
       <ul>
         <div ng-repeat="light in lights">
           <div ng-id="{{ light.id }}">{{ light.name}}</div>
-          <button ng-click="controller.lightOn(light.id)">On</button>
-          <button ng-click="controller.lightOff(light.id)">Off</button>
+          <button ng-click="lightOn(light.id)">On</button>
+          <button ng-click="lightOff(light.id)">Off</button>
         </div>
       </ul>
     </div>

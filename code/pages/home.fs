@@ -62,22 +62,22 @@ let turnAllOff (ctx : HttpContext) =
         return Some(ctx)
     }
 
+let private doWork (getLightID: string -> Choice<string,string>) (work:int->unit) =
+  match getLightID "lightid" with
+  | Choice1Of2 id ->
+      let intId = System.Convert.ToInt32(id)
+      work intId
+  | Choice2Of2 msg -> ()
+  ()
+
 let turnOn (ctx : HttpContext) =
     async {
-        match ctx.request.formData "lightid" with
-        | Choice1Of2 id ->
-            let intId = System.Convert.ToInt32(id)
-            turnLightOn intId
-        | Choice2Of2 msg -> ()
+        doWork ctx.request.formData turnLightOn
         return Some(ctx)
     }
 
 let turnOff (ctx : HttpContext) =
     async {
-        match ctx.request.formData "lightid" with
-        | Choice1Of2 id ->
-            let intId = System.Convert.ToInt32(id)
-            turnLightOff intId
-        | Choice2Of2 msg -> ()
+        doWork ctx.request.formData turnLightOff
         return Some(ctx)
     }
