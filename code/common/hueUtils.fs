@@ -13,31 +13,42 @@ type GroupId = int
 type GroupName = string
 
 
-type Light = { Id : LightId
-               Name : LightName}
+type Light = { LightId : LightId
+               LightName : LightName}
 
 type Group = { GroupId : LightId
                GroupName : LightName}
 
 let private ip =
     "192.168.1.8"
-let private setStateUri lightId=
+let private setLightStateUri lightId=
     sprintf "http://%s/api/newdeveloper/lights/%d/state" ip lightId
+
+let private setGroupStateUri groupId=
+    sprintf "http://%s/api/newdeveloper/groups/%d/action" ip groupId
+
 
 let private getLightsUri =
     sprintf "http://%s/api/newdeveloper/lights" ip
+let private getGroupUri =
+    sprintf "http://%s/api/newdeveloper/groups" ip
 
-let private groups =
-    () // http://www.developers.meethue.com/documentation/groups-api
-       // /GET|POST api/newdeveloper/groups
-       // {"1": {"name": "Main"},"2": {"name": "Bed Room"}}
 
-       // Get|Set group attributes
-       // GET|PUT
-       //     /api/newdeveloper/groups/<id>
+let getGroups() =
+    let uri = getGroupUri
+    let response = FSharp.Data.Http.Request(url=uri,httpMethod="GET")
+    if response.StatusCode = 200 then
+        match response.Body with
+         | Text body -> let json = JsonValue.Parse body
+                        json.Properties()
+                            |> Array.map(fun (id,f) ->
+                                let intId = Convert.ToInt32(id)
+                                let name = f.GetProperty("name").AsString()
+                                { GroupId = intId ; GroupName = name})
 
-       // /api/<username>/groups/<id>/action
 
+         | _ -> [||]
+    else [||]
 let getLights() =
     let uri = getLightsUri
     let response = FSharp.Data.Http.Request(url=uri,httpMethod="GET")
@@ -48,14 +59,24 @@ let getLights() =
                             |> Array.map(fun (id,f) ->
                                 let intId = Convert.ToInt32(id)
                                 let name = f.GetProperty("name").AsString()
-                                { Id = intId ; Name = name})
+                                { LightId = intId ; LightName = name})
 
 
          | _ -> [||]
     else [||]
 
+
+let setGroupState (cmd:JsonValue) groupId =
+    let uri = setGroupStateUri groupId
+    let body = TextRequest (cmd.ToString())
+    let response =
+        FSharp.Data.Http.Request(url=uri,httpMethod="PUT",body=body)
+    response.StatusCode
+
+
+
 let setLightState (lightCmd:JsonValue) lightId =
-    let uri = setStateUri lightId
+    let uri = setLightStateUri lightId
     let body = TextRequest (lightCmd.ToString())
     let response =
         FSharp.Data.Http.Request(url=uri,httpMethod="PUT",body=body)

@@ -11,16 +11,27 @@
 
 <body>
   <div ng-app="app">
-    <div ng-controller="MainController">
+    <h2>Lights</h2>
+    <div ng-controller="LightController">
       <button ng-click="allLightsOn()">All On</button>
       <button ng-click="allLightsOff()">All Off</button>
-      <ul>
-        <div ng-repeat="light in lights">
-          <div ng-id="{{ light.id }}">{{ light.name}}</div>
-          <button ng-click="lightOn(light.id)">On</button>
-          <button ng-click="lightOff(light.id)">Off</button>
-        </div>
-      </ul>
+
+      <div ng-repeat="light in lights">
+        <div ng-id="{{ light.lightId }}">{{ light.lightName}}</div>
+        <button ng-click="lightOn(light.lightId)">On</button>
+        <button ng-click="lightOff(light.lightId)">Off</button>
+      </div>
+
+    </div>
+    <br/>
+    <h2>Groups</h2>
+    <div ng-controller="GroupController">
+      <div ng-repeat="group in groups">
+
+        <div>{{group.groupName}}</div>
+        <button ng-click="groupOn(group.groupId)">On</button>
+        <button ng-click="groupOff(group.groupId)">Off</button>
+      </div>
     </div>
   </div>
 </body>

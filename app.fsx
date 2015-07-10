@@ -55,7 +55,8 @@ let app =
   choose
     [ GET >>= choose
         [ browseStaticFiles
-          path "/lights" >>= Home.allLights  ]
+          path "/lights" >>= Home.allLights
+          path "/groups" >>= Home.allGroups ]
       PUT >>= choose
         [ path "/turnallon" >>= Home.turnAllOn >>= NO_CONTENT
           path "/turnalloff" >>= Home.turnAllOff >>= NO_CONTENT
