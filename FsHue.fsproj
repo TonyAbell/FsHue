@@ -47,17 +47,14 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="code\common\filters.fs" />
+  <ItemGroup>    
     <Compile Include="code\common\lightCommandExtensions.fs" />
     <Compile Include="code\common\hueUtils.fs" />
     <Compile Include="code\pages\home.fs" />
-    <None Include="templates\page.html" />
-    <None Include="templates\home.html" />
+    <Compile Include="Program.fs" />
     <None Include="web\js\d\angularjs\angular.d.ts" />
     <None Include="web\js\app.ts" />
     <None Include="app.fsx" />
-    <Compile Include="Program.fs" />
     <None Include="App.config" />
     <None Include="paket.references" />
   </ItemGroup>

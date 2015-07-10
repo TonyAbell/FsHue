@@ -1,6 +1,5 @@
 *.suo
 *.bak
-data/
 packages/
 paket-files/
 obj/
