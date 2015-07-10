@@ -12,6 +12,7 @@ nuget Colourful
 nuget Microsoft.TypeScript.Compiler
 nuget angularjs
 nuget Newtonsoft.Json
+nuget Topshelf
 
 github borisyankov/DefinitelyTyped angularjs/angular.d.ts
 github borisyankov/DefinitelyTyped jquery/jquery.d.ts

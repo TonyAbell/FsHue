@@ -22,6 +22,7 @@ open Suave.Http.Successful
 open Suave.Web
 
 #load "code/common/lightCommandExtensions.fs"
+#load "code/common/utils.fs"
 #load "code/common/hueUtils.fs"
 #load "code/pages/home.fs"
 

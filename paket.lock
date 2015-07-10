@@ -31,9 +31,10 @@ NUGET
     Suave.DotLiquid (0.29.1)
       DotLiquid (>= 1.8.0)
       Suave (>= 0.29.1)
+    Topshelf (3.2.0)
     Zlib.Portable (1.11.0) - framework: portable-net40+sl50+wp80+win80
 GITHUB
   remote: borisyankov/DefinitelyTyped
   specs:
-    angularjs/angular.d.ts (9a4ddc59cda450fd34690df34b12e0c406399413)
-    jquery/jquery.d.ts (9a4ddc59cda450fd34690df34b12e0c406399413)
+    angularjs/angular.d.ts (286c198898978cb6045076c3e47f823a02217b41)
+    jquery/jquery.d.ts (286c198898978cb6045076c3e47f823a02217b41)

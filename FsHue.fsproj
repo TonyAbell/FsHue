@@ -47,7 +47,8 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Numerics" />
   </ItemGroup>
-  <ItemGroup>    
+  <ItemGroup>
+    <Compile Include="code\common\utils.fs" />
     <Compile Include="code\common\lightCommandExtensions.fs" />
     <Compile Include="code\common\hueUtils.fs" />
     <Compile Include="code\pages\home.fs" />
@@ -403,6 +404,26 @@
       <ItemGroup>
         <Reference Include="Suave.DotLiquid">
           <HintPath>packages\Suave.DotLiquid\lib\net40\Suave.DotLiquid.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+  </Choose>
+  <Choose>
+    <When Condition="$(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v3.5' Or $(TargetFrameworkVersion) == 'v4.0')">
+      <ItemGroup>
+        <Reference Include="Topshelf">
+          <HintPath>packages\Topshelf\lib\net35\Topshelf.dll</HintPath>
+          <Private>True</Private>
+          <Paket>True</Paket>
+        </Reference>
+      </ItemGroup>
+    </When>
+    <When Condition="($(TargetFrameworkIdentifier) == '.NETFramework' And ($(TargetFrameworkVersion) == 'v4.0' Or $(TargetFrameworkVersion) == 'v4.5' Or $(TargetFrameworkVersion) == 'v4.5.1' Or $(TargetFrameworkVersion) == 'v4.5.2' Or $(TargetFrameworkVersion) == 'v4.5.3' Or $(TargetFrameworkVersion) == 'v4.6')) Or ($(TargetFrameworkIdentifier) == 'MonoAndroid') Or ($(TargetFrameworkIdentifier) == 'MonoTouch')">
+      <ItemGroup>
+        <Reference Include="Topshelf">
+          <HintPath>packages\Topshelf\lib\net40-full\Topshelf.dll</HintPath>
           <Private>True</Private>
           <Paket>True</Paket>
         </Reference>

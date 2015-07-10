@@ -81,3 +81,24 @@ let setLightState (lightCmd:JsonValue) lightId =
     let response =
         FSharp.Data.Http.Request(url=uri,httpMethod="PUT",body=body)
     response.StatusCode
+
+open FsHue.LightCommandExtensions
+let offCmd = JsonValue.Null |> JsonValue.on.Set false
+
+let onCmd =
+        JsonValue.Null
+        |> JsonValue.on.Set true
+        |> JsonValue.brightness.Set 255uy
+        |> JsonValue.colour.Set System.Drawing.Color.White
+
+let turnGroupOn = function
+        | id -> setGroupState onCmd id |> ignore
+
+let turnGroupOff = function
+        | id -> setGroupState offCmd id |> ignore
+
+
+let turnLightOn = function
+        | id -> setLightState onCmd id |> ignore
+let turnLightOff = function
+        | id -> setLightState offCmd id |> ignore
