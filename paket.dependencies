@@ -4,6 +4,7 @@ nuget FAKE
 nuget Suave
 nuget Suave.DotLiquid
 nuget FSharp.Data
+nuget FSharp.Core
 nuget FSharp.Compiler.Service
 nuget DotLiquid
 nuget FSharp.Formatting
@@ -13,6 +14,7 @@ nuget Microsoft.TypeScript.Compiler
 nuget angularjs
 nuget Newtonsoft.Json
 nuget Topshelf
+nuget Topshelf.FSharp
 
 github borisyankov/DefinitelyTyped angularjs/angular.d.ts
 github borisyankov/DefinitelyTyped jquery/jquery.d.ts

@@ -7,3 +7,5 @@ FSharpx.Extras
 Colourful
 Newtonsoft.Json
 Topshelf
+FSharp.Core
+Topshelf.FSharp 

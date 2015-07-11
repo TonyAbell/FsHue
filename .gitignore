@@ -10,3 +10,5 @@ web/js/*.js
 web/js/*.map
 web/js/d/*
 build.running
+build/
+deploy/

@@ -73,7 +73,7 @@ let serverConfig =
   { defaultConfig with
       homeFolder = Some __SOURCE_DIRECTORY__
       //logger = Logging.Loggers.saneDefaultsFor Logging.LogLevel.Debug
-      logger = Loggers.ConsoleWindowLogger LogLevel.Verbose
+      logger = Loggers.ConsoleWindowLogger LogLevel.Debug
       bindings = [ HttpBinding.mk' HTTP  "127.0.0.1" 8083] }
 
 let reloadAppServer () =
@@ -162,6 +162,26 @@ Target "stop" (fun _ ->
   File.Delete(runningFile)
 )
 
+let buildDir  = "./build/"
+let deployDir = "./deploy/"
+let webDir = "./web/"
+let deployWebDir = "./deploy/web/"
+Target "build" (fun _ ->
+  !! "*.fsproj"
+      |> MSBuildRelease buildDir "Build"
+      |> Log "AppBuild-Output: "
+)
+
+Target "deploy" (fun _ ->
+  CleanDir deployDir
+  FileHelper.CopyDir deployDir buildDir (fun _ -> true)
+  FileHelper.CopyDir deployWebDir webDir (fun _ -> true)
+)
+
+Target "install" (fun _ -> ()
+
+)
+"build" ==> "deploy" ==> "install"
 
 "copyscripts"
   ==> "typescript"
