@@ -14,12 +14,6 @@ open Suave.Web
 open Newtonsoft.Json
 open FsHue.Utils
 
-
-type HomeView =
-    { Lights : list<Light>
-      Groups : list<Group> }
-
-
 let allGroups ctx =
     buildJson FsHue.hueUtils.getGroups ctx
 
