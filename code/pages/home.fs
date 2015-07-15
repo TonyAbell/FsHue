@@ -25,7 +25,6 @@ let iterAllLights cmd =
         |> Array.map (fun f -> f.LightId)
         |> Array.iter cmd
 
-
 let turnAllOn (ctx : HttpContext) =
     async {
         iterAllLights turnLightOn

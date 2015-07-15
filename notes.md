@@ -1,5 +1,6 @@
 
 Color Picker
+http://prajwalkman.github.io/angular-slider/
 https://github.com/vanderlee/colorpicker
 http://bgrins.github.io/spectrum/
 https://github.com/josedvq/colpick-jQuery-Color-Picker/

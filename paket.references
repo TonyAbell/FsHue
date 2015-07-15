@@ -1,11 +1,9 @@
 Suave
-Suave.DotLiquid
 FSharp.Data
-DotLiquid
 FSharp.Formatting
 FSharpx.Extras
 Colourful
 Newtonsoft.Json
 Topshelf
 FSharp.Core
-Topshelf.FSharp 
+Topshelf.FSharp

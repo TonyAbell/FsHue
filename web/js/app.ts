@@ -74,7 +74,7 @@ module lightsApp {
     }
 
   }
-  var app = angular.module('app', [])
+  var app = angular.module('app', ["kendo.directives"])
                    .controller('LightController', LightController)
                    .controller('GroupController', GroupController);
 }

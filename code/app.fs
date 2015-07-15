@@ -16,6 +16,9 @@ open Suave.Types
 open FsHue.Pages
 
 
+
+
+
 let browseStaticFile file ctx = async {
   let actualFile = Path.Combine(ctx.runtime.homeDirectory, "web", file)
   if System.IO.File.Exists(actualFile) then
