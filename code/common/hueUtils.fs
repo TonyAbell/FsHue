@@ -14,10 +14,11 @@ type GroupName = string
 
 
 type Light = { LightId : LightId
-               LightName : LightName}
+               LightName : LightName }
 
 type Group = { GroupId : LightId
-               GroupName : LightName}
+               GroupName : LightName
+               IsOn : bool }
 
 let private ip =
     "192.168.1.8"
@@ -44,7 +45,8 @@ let getGroups() =
                             |> Array.map(fun (id,f) ->
                                 let intId = Convert.ToInt32(id)
                                 let name = f.GetProperty("name").AsString()
-                                { GroupId = intId ; GroupName = name})
+                                let isOn = f.GetProperty("action").GetProperty("on").AsBoolean()
+                                { GroupId = intId ; GroupName = name; IsOn = isOn })
 
 
          | _ -> [||]

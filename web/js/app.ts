@@ -11,12 +11,7 @@ module lightsApp {
       public lightName: string
       ) { }
   }
-  export class GroupItem {
-    constructor(
-      public groupId: string,
-      public groupName: string
-      ) { }
-  }
+
 
   export interface ILightScope extends ng.IScope {
     lights: LitghtItem[];
@@ -24,7 +19,8 @@ module lightsApp {
     lightOff(lightId: string): void;
     allLightsOn(): void;
     allLightsOff(): void;
-
+    status: boolean;
+    changeStatus() : void;
   }
   export class LightController {
     public static $inject = ['$scope', '$http'];
@@ -33,6 +29,10 @@ module lightsApp {
       $http.get("/lights").then((response: ng.IHttpPromiseCallbackArg<LitghtItem[]>) => {
         $scope.lights = response.data;
       });
+      $scope.status = true;
+      $scope.changeStatus = () => {
+        $scope.status = !$scope.status;
+      };
       $scope.allLightsOn = () => {
             this.$http.put("/turnallon", "").then(_ => { });
       };
@@ -51,6 +51,13 @@ module lightsApp {
     }
 
   }
+  export class GroupItem {
+    constructor(
+      public groupId: string,
+      public groupName: string,
+      public isOn : boolean
+      ) { }
+  }
   export interface IGroupScope extends ng.IScope {
     groups: GroupItem[];
     groupOn(groupId: string): void;
@@ -64,10 +71,22 @@ module lightsApp {
         $scope.groups = response.data;
       });
       $scope.groupOn = (groupId) => {
+
+        for (let i = 0; i < $scope.groups.length; i++) {
+            if ($scope.groups[i].groupId == groupId){
+              $scope.groups[i].isOn = true;
+            }
+        }
+
         var data = "groupid=" + groupId;
         this.$http.put("/turnon", data).then(_ => { });
       };
       $scope.groupOff = (groupId) => {
+        for (let i = 0; i < $scope.groups.length; i++) {
+            if ($scope.groups[i].groupId == groupId){
+              $scope.groups[i].isOn = false;
+            }
+        }
         var data = "groupid=" + groupId;
         this.$http.put("/turnoff", data).then(_ => { });
       };
