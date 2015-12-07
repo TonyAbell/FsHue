@@ -19,6 +19,25 @@ open Suave.Http.Applicatives
 open Suave.Http.Successful
 open Suave.Web
 
+
+open Suave.Sockets
+open Suave.Sockets.Control
+open Suave.WebSocket
+
+open System
+open System.Net
+open Suave
+open Suave.Types
+open Suave.Http
+open Suave.Http.Applicatives
+open Suave.Http.Successful
+open Suave.Http.Files
+open Suave.Http.RequestErrors
+open Suave.Logging
+open Suave.Web
+open Suave.Utils
+
+
 #load "code/common/utils.fs"
 #load "code/common/lightCommandExtensions.fs"
 #load "code/common/hueUtils.fs"
@@ -29,6 +48,7 @@ open Suave.Web
 open FsHue.LightCommandExtensions
 open FsHue.Pages
 open FsHue.Main
+
 
 
 let cfg =
